@@ -10,8 +10,8 @@
     var pluginName = "UrlCatcher",
         defaults = {
             urlRegex: /(https?:\/\/)?([\dA-Za-z\._-]+)\.([A-Za-z\.]{2,6})([\/\w\._\-=\?]*)*\/?/,
-            callback: '',
-            cancel: '',
+            cancel: undefined,
+            callback: undefined,
             cancelCallback: undefined
         };
 
@@ -25,6 +25,9 @@
 
         this._defaults = defaults;
         this._name = pluginName;
+
+        if(this.options.callback === undefined)
+            throw "callback is undefined";
 
         this.init();
     }
@@ -43,25 +46,28 @@
             });
         },
 
-        addClearHandler: function(options){
-            $(options.cancel).click(function(){
-                url = '';
-                if(options.cancelCallback != undefined && options.cancelCallback != null)
-                {
-                    options.cancelCallback();
-                }
-            });
+        addClearHandler: function(options) {
+            if(options.cancel !== undefined)
+            {
+                $(options.cancel).click(function(){
+                    url = '';
+                    if(options.cancelCallback !== undefined && options.cancelCallback != null)
+                    {
+                        options.cancelCallback();
+                    }
+                });
+            }
         },
 
         verifyClearText: function(value){
-            if(value=='' && lockurl == true)
+            if(value=='' && lockurl === true)
                 lockurl = false;
         },
 
         verifyNewUrl: function(value, pattern, callback) {
             //https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String/match
             var _urls = value.match(pattern);
-            if(_urls != undefined && _urls != null && _urls.length > 0 && url == '' && lockurl == false)
+            if(_urls !== undefined && _urls != null && _urls.length > 0 && url == '' && lockurl === false)
             {
                 var index = value.indexOf(_urls[0]);
                 if(value.length > (index + _urls[0].length))
