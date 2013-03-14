@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Jquery Url Catcher</title>
+</head>
+<body>
+	<textarea name="textareaname" id="textareaid" cols="30" rows="10">
+	</textarea>
+	<p><a href="javascript:;" id="cancel">cancel</a></p>
+	<p id="url"></p>
+
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="jquery.urlcatcher.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$("#textareaid").UrlCatcher({
+				callback: function(url){
+					$("#url").text(url);
+				},
+				cancel: "#cancel",
+				cancelCallback: function(){
+					$("#url").text('');
+				}
+			});
+		});
+	</script>
+</body>
+</html>
